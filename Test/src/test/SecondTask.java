@@ -7,12 +7,19 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/*You are given a list of cities. 
+ * Each direct connection between two cities has its transportation cost (an integer bigger than 0). 
+ * The goal is to find the paths of minimum cost between pairs of cities. 
+ * Assume that the cost of each path (which is the sum of costs of all direct connections belongning to this path) is at most 200000. 
+ * The name of a city is a string containing characters a,...,z and is at most 10 characters long.2) 
+ * */
+
 //implementing a help class Vertex - node of our network
 class Vertex implements Comparable<Vertex> {
 	public String name;// name of the city
 	public Edge[] adjacencies;// "roads" to other cities
 	public double minDistance = Double.POSITIVE_INFINITY;
-	public Vertex previous;// prevoios node
+	public Vertex previous;// previous node
 
 	public Vertex(String argName) {
 		name = argName;
@@ -55,7 +62,7 @@ class Edge {
 
 // class for calculating the shortest path using dijkstra algorithm
 public class SecondTask {
-	
+
 	// building our path
 	public static void computePaths(Vertex source) {
 		source.minDistance = 0;
@@ -109,8 +116,9 @@ public class SecondTask {
 			numberOfTests = Integer.parseInt(line);// getting number of tests
 			for (int testIndex = 0; testIndex < numberOfTests; testIndex++) {
 				line = br.readLine();
-				numberOfCities = Integer.parseInt(line);// getting number of cities
-				//implementing array of Vertex to build a network
+				numberOfCities = Integer.parseInt(line);// getting number of
+														// cities
+				// implementing array of Vertex to build a network
 				for (int i = 0; i < numberOfCities; i++) {
 					arrayVertex.add(new Vertex());
 				}
@@ -131,7 +139,8 @@ public class SecondTask {
 					}
 					arrayVertex.get(i).adjacencies = ed;
 				}
-				// parsing information about cities - between them we want to find the shortest path
+				// parsing information about cities - between them we want to
+				// find the shortest path
 				line = br.readLine();
 				int index = Integer.parseInt(line);
 				for (int i = 0; i < index; i++) {
@@ -143,11 +152,10 @@ public class SecondTask {
 						Vertex start = arrayVertex.get(foundIndexStart);
 						Vertex finish = arrayVertex.get(foundIndexFinish);
 						// calculating the path
-						computePaths(start); 
+						computePaths(start);
 						System.out.println("Distance from " + start + " to " + finish + ": "
-								+ (int)arrayVertex.get(3).minDistance);
-					}
-					else{
+								+ (int) arrayVertex.get(3).minDistance);
+					} else {
 						System.out.println("No such city");
 					}
 				}

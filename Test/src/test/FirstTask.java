@@ -24,6 +24,7 @@ public class FirstTask {
 		Scanner scan = new Scanner(System.in);
 		System.out.print("Please enter the number of correct bracket sequence: ");
 		String input = scan.nextLine();
+		//if it isn't a digit
 		if (!input.matches("-?\\d+(\\.\\d+)?")) {
 			System.out.println("Input isn't valid. Try again");
 		}
