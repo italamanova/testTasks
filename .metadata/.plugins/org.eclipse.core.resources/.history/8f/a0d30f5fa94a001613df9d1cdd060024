@@ -1,0 +1,30 @@
+package test;
+
+//counting brackets
+public class FirstTask {
+	public static int Ci (int n, int k) {
+		int res = 1;
+		for (int i=n-k+1; i<=n; ++i){
+			res *= i;
+		}
+		for (int i=2; i<=k; ++i){
+			res /= i;
+		}
+		return res;
+	}
+
+	public static int find(int n){
+		int dn = (1/(n+1))*Ci(2n, n);
+		/*for(int i = 0; i < n; i++){
+			System.out.println("dn  " + dn);
+			dn += Ci(n,i)*Ci(n, n-1-i);
+		}*/
+		
+		return dn;
+	}
+	public static void main(String[] args) {
+		int u = 3;
+		System.out.println("answer:" + find(u));
+	}
+
+}

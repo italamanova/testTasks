@@ -1,0 +1,33 @@
+package test;
+
+import java.util.Scanner;
+
+//counting brackets
+public class FirstTask {
+	public static int Ci(int n, int k) {
+		int C (int n, int k) {
+			double res = 1;
+			for (int i=1; i<=k; ++i)
+				res = res * (n-k+i) / i;
+			return (int) (res + 0.01);
+		}
+	}
+
+	public static float find(int n) {
+		float koef = (float) 1 / (n + 1);
+		System.out.println("koef " + koef);
+		float dn = koef * (float) Ci(2 * n, n);
+		return dn;
+	}
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		System.out.print("Please enter the number of correct bracket sequence: ");
+		String input = scan.nextLine();
+		if (!input.matches("-?\\d+(\\.\\d+)?")) {
+			System.out.println("Input isn't valid. Try again");
+		}
+		System.out.println("answer: " + find(Integer.parseInt(input)));
+	}
+
+}

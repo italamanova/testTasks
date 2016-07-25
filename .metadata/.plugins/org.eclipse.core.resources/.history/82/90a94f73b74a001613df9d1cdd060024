@@ -1,0 +1,33 @@
+package test;
+
+public class ThirdTask {
+	// count the sum of the digits in the number 100!
+	
+	// a simple function to count factorial
+	/*public static int factorial(int n)
+    {
+        if (n == 0) {
+        	return 1;
+        }
+        return n * factorial(n-1);
+    }*/
+	 public static long factorial(int n)
+	    {
+	        long ret = 1;
+	        for (int i = 1; i <= n; ++i) ret *= i;
+	        System.out.println(ret);
+	        return ret;
+	    }
+	
+	public static void main(String[] args) {
+		String ret = "" + factorial(100);
+		System.out.println(ret);
+		int result = 0;
+		for(int i = 0; i < ret.length(); i++){
+			result += Integer.parseInt(ret.substring(i, i+1));
+		}
+		System.out.println("the answer is:" + result);
+		
+	}
+
+}

@@ -1,0 +1,22 @@
+package test;
+
+//counting brackets
+public class FirstTask {
+	public static int Ci(int n,int k){
+		if (k == 0 || k == n)
+	        return 1;
+	    else
+	        return Ci(n-1,k-1)+Ci(n-1,k);
+	}
+
+	public static int find(int n){
+		int dn = (1/n+1)*Ci(2*n, n);
+			
+		return dn;
+	}
+	public static void main(String[] args) {
+		int u = 3;
+		System.out.println("answer:" + find(u));
+	}
+
+}

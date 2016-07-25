@@ -1,0 +1,170 @@
+package test;
+
+import java.util.PriorityQueue;
+import java.util.Scanner;
+import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Collections;
+
+class Vertex implements Comparable<Vertex> {
+	public String name;
+	public Edge[] adjacencies;
+	public double minDistance = Double.POSITIVE_INFINITY;
+	public Vertex previous;
+
+	public Vertex(String argName) {
+		name = argName;
+	}
+
+	public Vertex() {
+		name = null;
+	}
+
+	public String toString() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int compareTo(Vertex other) {
+		return Double.compare(minDistance, other.minDistance);
+	}
+
+}
+
+class Edge {
+	public final Vertex target;
+	public final double weight;
+
+	public Edge(Vertex argTarget, double argWeight) {
+		target = argTarget;
+		weight = argWeight;
+	}
+
+	@Override
+	public String toString() {
+		return "Edge [target=" + target + ", weight=" + weight + "]";
+	}
+
+}
+
+public class Dijkstra {
+	public static void computePaths(Vertex source) {
+		source.minDistance = 0;
+		PriorityQueue<Vertex> vertexQueue = new PriorityQueue<Vertex>();
+		vertexQueue.add(source);
+
+		while (!vertexQueue.isEmpty()) {
+			Vertex u = vertexQueue.poll();
+
+			// Visit each edge exiting u
+			for (Edge e : u.adjacencies) {
+				Vertex v = e.target;
+				double weight = e.weight;
+				double distanceThroughU = u.minDistance + weight;
+				if (distanceThroughU < v.minDistance) {
+					vertexQueue.remove(v);
+
+					v.minDistance = distanceThroughU;
+					v.previous = u;
+					vertexQueue.add(v);
+				}
+			}
+		}
+	}
+
+	public static List<Vertex> getShortestPathTo(Vertex target) {
+		List<Vertex> path = new ArrayList<Vertex>();
+		for (Vertex vertex = target; vertex != null; vertex = vertex.previous)
+			path.add(vertex);
+
+		Collections.reverse(path);
+		return path;
+	}
+
+	public static ArrayList<Vertex> parse(String fileName) {
+		int numberOfTests;
+		int numberOfCities;
+		ArrayList<Vertex> arrayVertex = new ArrayList<Vertex>();
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(fileName));
+			String line = br.readLine();
+			numberOfTests = Integer.parseInt(line);
+			for (int testIndex = 0; testIndex < numberOfTests; testIndex++) {
+				line = br.readLine();
+				numberOfCities = Integer.parseInt(line);
+				for (int i = 0; i < numberOfCities; i++) {
+					arrayVertex.add(new Vertex());
+				}
+				for (int i = 0; i < numberOfCities; i++) {
+					System.out.println("-------");
+					String cityName = br.readLine();
+					System.out.println(cityName);
+					arrayVertex.get(i).setName(cityName);
+					line = br.readLine();
+					int numberOfConnections = Integer.parseInt(line);
+					Edge[] ed = new Edge[numberOfConnections];
+					for (int j = 0; j < numberOfConnections; j++) {
+						line = br.readLine();
+						System.out.println(line);
+						String[] con = line.split(" ");
+						int ind = Integer.parseInt(con[0]);
+						int cost = Integer.parseInt(con[1]);
+						Edge edge = new Edge(arrayVertex.get(ind - 1), cost);
+						ed[j] = edge;
+					}
+					arrayVertex.get(i).adjacencies = ed;
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return arrayVertex;
+	}
+	public int findByName(String n, ArrayList<Vertex> arrayVertex){
+		
+		for(int i = 0;i < arrayVertex.size();i++){
+			if(arrayVertex.get(i).name.equals(n)){
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public static void main(String[] args) {
+		// mark all the vertices
+		String fileName = "D:\\Input.txt";
+		ArrayList<Vertex> arrayVertex = parse(fileName);
+		for (Vertex v : arrayVertex) {
+			for (Edge e : v.adjacencies) {
+				System.out.println("Vertex " + v + ": " + e);
+			}
+		}
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(fileName));
+			String line = br.readLine();
+			int index = Integer.parseInt(line);
+			for (int i = 0; i < index; i++) {
+				
+				line = br.readLine();
+				String[] cities = line.split(" "); 
+				int foundIndex = findByName()
+				int start = arrayVertex.get();
+				int dest = cityNames.get(cities[1]);
+				
+				computePaths(arrayVertex.get(0)); // run Dijkstra
+				System.out.println("Distance from " + arrayVertex.get(0) + " to " + arrayVertex.get(3) + ": "
+						+ arrayVertex.get(3).minDistance);
+				List<Vertex> path = getShortestPathTo(arrayVertex.get(3));
+				System.out.println("Path: " + path);
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+	}
+}

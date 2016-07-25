@@ -1,0 +1,100 @@
+package test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class SecondTask {
+	/*
+	 * Input
+	 * 
+	 * s [the number of tests <= 10] n [the number of cities <= 10000] NAME
+	 * [city name] p [the number of neighbours of city NAME] nr cost [nr - index
+	 * of a city connected to NAME (the index of the first city is 1)] [cost -
+	 * the transportation cost] r [the number of paths to find <= 100] NAME1
+	 * NAME2 [NAME1 - source, NAME2 - destination] [empty line separating the
+	 * tests]
+	 * 
+	 * Output
+	 * 
+	 * cost [the minimum transportation cost from city NAME1 to city NAME2 (one
+	 * per line)]
+	 * 
+	 * Example
+	 * 
+	 * Input: 1 4 gdansk 2 2 1 3 3 bydgoszcz 3 1 1 3 1 4 4 torun 3 1 3 2 1 4 1
+	 * warszawa 2 2 4 3 1 2 gdansk warszawa bydgoszcz warszawa
+	 * 
+	 * Output: 3 2
+	 */
+	
+
+	
+
+	public static int[] dijkstra(int start, int vNum, int inf, int graph[][]) {
+		boolean[] used = new boolean[vNum]; // массив пометок
+		int[] dist = new int[vNum]; // массив расстояния. dist[v] =
+									// минимальное_расстояние(start, v)
+		Arrays.fill(dist, inf); // устанаавливаем расстояние до всех вершин INF
+		dist[start] = 0; // для начальной вершины положим 0
+		for (;;) {
+			int v = -1;
+			for (int nv = 0; nv < vNum; nv++){ // перебираем вершины
+				if (!used[nv] && dist[nv] < inf && (v == -1 || dist[v] > dist[nv])){ // выбираем самую близкую непомеченную вершину
+					v = nv;
+				}
+			}
+			if (v == -1){
+				break; // ближайшая вершина не найдена
+			}
+			used[v] = true; // помечаем ее
+			for (int nv = 0; nv < vNum; nv++){
+				if (!used[nv] && graph[v][nv] < inf){ // для всех непомеченных смежных
+					dist[nv] = Math.min(dist[nv], dist[v] + graph[v][nv]); // улучшаем оценку расстояния (релаксация)
+				}
+			}
+		}
+		return dist;
+	}
+
+	public static void main(String[] args) {
+		int INF = Integer.MAX_VALUE / 2; // "Бесконечность"
+		int numberOfTests;
+		int numberOfCities;
+		HashMap<Integer, String> cityNames;
+		
+		
+		Scanner scan = new Scanner(System.in);
+		System.out.print("Please enter the number of tests: ");
+		numberOfTests = Integer.parseInt(scan.nextLine());
+		System.out.print("Please enter the number of cities: ");
+		numberOfCities = Integer.parseInt(scan.nextLine());
+		cityNames = new HashMap<Integer, String>();
+		int[][] graph = new int[numberOfCities][numberOfCities]; // матрица смежности 
+		
+		for(int i = 0; i < numberOfCities;i++){
+			System.out.print("Please enter the city name " + i + ": ");
+			cityNames.put(i, scan.nextLine());
+			System.out.print("Please enter the number of connections: ");
+			int numberOfConnections = Integer.parseInt(scan.nextLine());
+			for(int j = 0; j < numberOfConnections;j++){
+				System.out.print("Please enter the number of city and cost of this connection: " + j + " of " + numberOfConnections);
+				String s1 = scan.nextLine();
+				String[] array = s1.split(" ");
+				int ind = Integer.parseInt(array[0]);
+				int cost = Integer.parseInt(array[11]);
+				graph[i][ind] = cost;
+			}
+		}
+		
+		for(;;){
+			System.out.print("Please enter two cities : ");
+			String[] cities = scan.nextLine().split(" ");
+			int[] dist = dijkstra(Integer.parseInt(cities[0]),numberOfCities, INF, graph);
+			System.out.println(dist.toString());
+		}
+	}
+
+}
