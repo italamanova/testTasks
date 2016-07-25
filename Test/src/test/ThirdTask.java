@@ -15,7 +15,6 @@ public class ThirdTask {
 
 	//counting the sum using loop
 	public static void main(String[] args) {
-		//using out factorial function
 		String ret = "" + factorial(100);
 		System.out.println(ret);
 		int result = 0;
